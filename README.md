@@ -1,4 +1,4 @@
-D3.js is not new, but it __is__ pretty shiny. It is a JavaScript framework for creating data-driven documents. In other words, it helps you create data visualizations by binding data to the DOM. Data is not always, actually very rarely in a consumable and understandable format to humans. If your data needs to portray a message and be *understood*, a visualization always helps. As an example, d3 could help you: visualize the relationships between species of Salamanders, chart your business's quarterly financial results, or make a nifty music frequency analyser. There are countless possibilities, you can check out some of the examples [here](https://github.com/mbostock/d3/wiki/Gallery).
+D3.js is not new, but it __is__ pretty shiny. It is a JavaScript framework for creating data-driven documents. In other words, it helps you create data visualizations by binding data to the DOM. Data is not always, actually very rarely in a consumable and understandable format to humans. If your data needs to portray a message and be *understood*, a visualization always helps. As an example, d3 could help you: visualize the relationships between species of Salamanders, chart your business's quarterly financial results, or make a nifty music frequency visualizer. There are countless possibilities, you can check out some of the examples [here](https://github.com/mbostock/d3/wiki/Gallery).
 
 If you're like me, you'll take a look at the some of the more involved examples and your eyes will gloss over with awe and initimidation. Don't sweat it, like everything else, you should start with an introduction. Today we will be creating a simple bar chart.
 
@@ -25,7 +25,7 @@ First create your `index.html` file.
 
 {% endhighlight %}
 
-*We will be using CDNs for jQuery and d3 but if you play on working offline make sure to download the libs to your project folder.
+*We will be using CDNs for jQuery and d3 but if you plan on working offline make sure to download the libs to your project folder.
 
 Next, create the app.js file in the same directory.
 
@@ -61,7 +61,7 @@ Alright, enough with the setup, lets start writing some code. You _can_ use DIVs
 
 The `svgHeight` and `svgWidth` variables will be the height and width of our SVG in pixels. The `createSvg` function accepts a parent DOM element selector that the SVG will be appended to, in our case the `<div id="graph"></div>` element, along with its height and width. The `d3.select(parent)` will tell the d3 framework to select a DOM element to be acted upon. If you're familiar with jQuery or CSS selectors, this is primarily the same thing. You can pass `select()` an ID or class name with the appropriate pretext, or simply any HTML element such as `d3.select('body')`. Once d3 selects that element, it returns a _reference_ to that element which allows us to modify that element by _chaining_ methods, in this case appending an SVG and setting attributes. 
 
-So step-by-step, our `createSvg()` method first selects the parent element we passed to it, then creates a new SVG element and appends it within the parent, then sets the height and width attributes of the new SVG element. Finally, since the last method in the chain `.attr()` is referencing the SVG element, the `return` statement in `createSVG()` is returning a _reference_ to the SVG element. Pulling everything together, {% highlight javascript %}`var svg = createSvg('#graph', svgHeight, svgWidth);`{% endhighlight %} creates the SVG and then stores the reference to to the SVG element in the `graph` variable. 
+So step-by-step, our `createSvg()` method first selects the parent element we passed to it, then creates a new SVG element and appends it within the parent, then sets the height and width attributes of the new SVG element. Finally, since the last method in the chain `.attr()` is referencing the SVG element, the `return` statement in `createSVG()` is returning a _reference_ to the SVG element. Pulling everything together, {% highlight javascript %}`var graph = createSvg('#graph', svgHeight, svgWidth);`{% endhighlight %} creates the SVG and then stores the reference to to the SVG element in the `graph` variable. 
 
 Before we create our bar graph, we need some data to bind to it. D3 accepts many different formats of data including JSON, GeoJSON and even CSV files but for this intro we will just be using a JavaScript array of numbers. Add the following variable to your app.js
 
@@ -91,3 +91,18 @@ Now let's create the bars in our bar graph.
 	   });
 
 {% endhighlight %}
+
+Boom. You now have a bar graph worthy of visualizing synergy at your next board-meeting.
+
+Let's break down what this code snippet is doing.
+
+{% highlight javascript %}
+
+	graph.selectAll('rect')
+	   .data(dataset)
+	   .enter()
+	   .append('rect')
+	   
+{% endhighlight %}
+
+`graph` is referencing our svg variable that we created earlier, `selectAll('rect')` is saying "please find all the <rect> elements within our svg". Since there are currently none, d3 will create an empty array of element references. Next, the `.data(dataset)` method binds our array of numbers to those references. Thirdly, `.enter()` tells d3 to look at the data and _create_ <rect> element references based on that data. Since there are 14 numbers in our dataset, d3 will create 14 <rect> element references. Finally, `.append('rect')` appends those new elements to the DOM.
