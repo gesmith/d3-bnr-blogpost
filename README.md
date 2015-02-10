@@ -109,7 +109,7 @@ Let's break down what this code snippet is doing.
 
 `graph` is referencing our svg variable that we created earlier, `selectAll('rect')` is saying "please find all the <rect> elements within our svg". Since there are currently none, d3 will prepare an empty array of element references. Next, the `.data(dataset)` method binds our array of numbers to those references. Thirdly, `.enter()` tells d3 to look at the data and _create_ <rect> element references based on that data. Since there are 14 numbers in our dataset, d3 will create 14 <rect> element references. Finally, `.append('rect')` appends those new elements to the DOM.
 
-Without setting the height, width, X and Y values, the SVG will just look blank even though there _are_ <rect> elements inside of it. Since the `.attr()` methods are modifying an _array_ of DOM references on the method chain, they will be looped through for each item in the array. This means you can gain access to each item's value in the array by using an anonymous function. Let's take a look at the last four methods:
+Without setting the height, width, X and Y values, the SVG will just look blank even though there _are_ <rect> elements inside of it. Since the `.attr()` methods are modifying an _array_ of DOM references on the method chain, they will be invoked for each item in the array. This means you can gain access to each item's value in the array by using an anonymous function. Let's take a look at the last four methods:
 
 {% highlight javascript %}
 
@@ -126,7 +126,7 @@ Without setting the height, width, X and Y values, the SVG will just look blank 
 
 {% endhighlight %}
 
-The width of each bar in the graph is being set to a relative value based on how many items in the array and the width of the SVG so that the bar graph will take up the _full_ width of the SVG. The height is using an anonymous method to gain access to the item's value "d" and multiplying it by 4, just to make the bars a little easier to see. 
+The width of each bar in the graph is being set to a relative value based on how many items in the array and the width of the SVG so that the bar graph will take up the _full_ width of the SVG. The height is using an anonymous method to gain access to the item's value `d` and multiplying it by 4, just to make the bars a little easier to see. 
 
 The X coordinate value is each bar's position left-to-right on the SVG. We can gain access to each bar's index in the array by adding a parameter `i` to the anonymous function. We want to space out the bars evenly so set the X coordinate to be `i * (svgWidth / dataset.length)`. The Y coordinate is a little different since SVG _rects_ use the top-left corner as the point of origin, which is a little weird. So if we didn't provide a value for the Y coordinate, our bars would be _upside down_. That's why we have to set the Y value to be the difference between the heights of the SVG and our bar.
 
