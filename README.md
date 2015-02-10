@@ -126,7 +126,7 @@ Without setting the height, width, X and Y values, the SVG will just look blank 
 
 {% endhighlight %}
 
-The width of each bar in the graph is being set to a relative value based on how many items in the array and the width of the SVG so that the bar graph will take up the _full_ width of the SVG. The height is using an anonymous method to gain access to the item's value `d` and multiplying it by 4, just to make the bars a little easier to see. 
+The width of each bar in the graph is being set to a relative value based on how many items in the array and the width of the SVG so that the bar graph will take up the _full_ width of the SVG. The height is using an anonymous function to gain access to the item's value `d` and multiplying it by 4, just to make the bars a little easier to see. 
 
 The X coordinate value is each bar's position left-to-right on the SVG. We can gain access to each bar's index in the array by adding a parameter `i` to the anonymous function. We want to space out the bars evenly so set the X coordinate to be `i * (svgWidth / dataset.length)`. The Y coordinate is a little different since SVG _rects_ use the top-left corner as the point of origin, which is a little weird. So if we didn't provide a value for the Y coordinate, our bars would be _upside down_. That's why we have to set the Y value to be the difference between the heights of the SVG and our bar.
 
